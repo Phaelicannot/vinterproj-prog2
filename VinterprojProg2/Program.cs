@@ -11,6 +11,7 @@ Raylib.SetTargetFPS(30);
 
 Player bird = new Player();
 Variables v = new Variables();
+Obstacle pipe = new Obstacle();
 List<Obstacle> obstacles = new();
 
 while(Raylib.WindowShouldClose() == false)
@@ -24,12 +25,12 @@ while(Raylib.WindowShouldClose() == false)
     bird.DrawCharacter();
     bird.IsDead(); 
 
-    if (obstacles.Count <= Obstacle.maxObstacles)
+    if (obstacles.Count() <= Obstacle.maxObstacles)
     {   
-        if (obstacles.Count < 1 ||  > Raylib.GetScreenWidth() / Obstacle.maxObstacles)
+        if (obstacles.Count() < 1 || obstacles[obstacles.Count()-1].Space())
         {
             obstacles.Add(new Obstacle());
-            if ( > Raylib.GetScreenWidth() / Obstacle.maxObstacles)
+            if (obstacles[obstacles.Count()-1].Space())
             {
                 pipe.obstacleSpace = 0;
             }
@@ -44,42 +45,45 @@ while(Raylib.WindowShouldClose() == false)
         i.MoveObstacle();
     }
 
-    if (obstacles.Count > pipe.maxObstacles)
+    if (obstacles.Count() > Obstacle.maxObstacles)
     {
         obstacles.RemoveAt(0);
     }
 
     bool isColliding()
     {
-        foreach(Obstacle n in obstacles)
+        Raylib.CheckCollisionRecs(bird.getRect(), obstacles[0].getPipeH());
+        Raylib.CheckCollisionRecs(bird.getRect(), obstacles[0].getPipeL());
+        if (Raylib.CheckCollisionRecs(bird.getRect(), obstacles[0].getPipeH()) || Raylib.CheckCollisionRecs(bird.getRect(), obstacles[0].getPipeL()))
         {
-            Raylib.CheckCollisionRecs(bird.getRect(), pipe.getPipeH());
-            Raylib.CheckCollisionRecs(bird.getRect(), pipe.getPipeL());
-            if (Raylib.CheckCollisionRecs(bird.getRect(), pipe.getPipeH()) || Raylib.CheckCollisionRecs(bird.getRect(), pipe.getPipeL()))
-            {
-                return true;
-            }
-            else if (bird.charPosY > Raylib.GetScreenHeight() - 64)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
-        return false;
+        else if (bird.charPosY > Raylib.GetScreenHeight() - 64)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
+    if(obstacles[0].obstacleX == 100 && !isColliding())
+    {
+        v.score += 1;
+    }
 
+    
+    Raylib.DrawText(v.score.ToString(), v.windowWidth -100, 50, 30, Color.BLACK);
     if(isColliding())
     {
         bird.dead = true;
     }
     
-    Raylib.DrawRectangle((int)obstacles[0].getPipeH().X, (int)obstacles[0].getPipeH().Y, (int)obstacles[0].getPipeH().Width, (int)obstacles[0].getPipeH().Height, Color.WHITE);
-    Console.WriteLine(pipe.getPipeH());
-    Raylib.DrawRectangle((int)bird.getRect().X, (int)bird.getRect().Y, (int)bird.getRect().Width, (int)bird.getRect().Height, Color.WHITE);
+    // Raylib.DrawRectangle((int)obstacles[0].getPipeH().X, (int)obstacles[0].getPipeH().Y, (int)obstacles[0].getPipeH().Width, (int)obstacles[0].getPipeH().Height, Color.WHITE);
+    // Raylib.DrawRectangle((int)obstacles[0].getPipeL().X, (int)obstacles[0].getPipeL().Y, (int)obstacles[0].getPipeL().Width, (int)obstacles[0].getPipeL().Height, Color.WHITE);
+    // Console.WriteLine(pipe.getPipeH());
+    // Raylib.DrawRectangle((int)bird.getRect().X, (int)bird.getRect().Y, (int)bird.getRect().Width, (int)bird.getRect().Height, Color.WHITE);
     
     Raylib.EndDrawing();
     

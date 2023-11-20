@@ -41,10 +41,14 @@ public class Obstacle
     {
         obstacleX = obstacleX - speed;
     }
-    public void Space()
+    public bool Space()
     {
-        obstacleSpace += speed;
+        return ObstacleSpace() > Raylib.GetScreenWidth() / Obstacle.maxObstacles;
     }
     
-
+    public int ObstacleSpace()
+    {
+        obstacleSpace += speed;
+        return obstacleSpace;
+    }
 }

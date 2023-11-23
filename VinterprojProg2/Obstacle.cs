@@ -29,7 +29,7 @@ public class Obstacle
     public Obstacle()
     {
         heightGenHigh = generator.Next(-800, Raylib.GetScreenHeight() - 1200);
-        heightGenLow = heightGenHigh + 1000;
+        heightGenLow = heightGenHigh + 1120;
     }
     public void DrawObstacle()
     {   

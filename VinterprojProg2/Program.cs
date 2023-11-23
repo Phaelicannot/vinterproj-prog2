@@ -20,7 +20,6 @@ while(Raylib.WindowShouldClose() == false)
 
     Raylib.BeginDrawing();
     Raylib.ClearBackground(Color.SKYBLUE);
-    Console.WriteLine(obstacles);
 
     bird.Flap();
     bird.DrawCharacter();

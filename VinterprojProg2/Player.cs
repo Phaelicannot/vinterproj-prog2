@@ -53,7 +53,8 @@ public class Player
     {
         if(dead == true)
         { 
-            Raylib.DrawText("Damn L", v.windowWidth/2, v.windowHeight/2, 30, Color.BLACK);
+            Raylib.DrawText("You died", 200, v.windowHeight/2, 30, Color.BLACK);
+            Raylib.DrawText("Press enter to retry", 200, v.windowHeight/2 + 50, 30, Color.BLACK);
         }
     }
 

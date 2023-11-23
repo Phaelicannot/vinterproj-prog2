@@ -7,4 +7,5 @@ public class Variables
     
     public int obstacleX = Raylib.GetScreenWidth();
     public int score = 0;
+    public int restartTrigger = 0;
 }

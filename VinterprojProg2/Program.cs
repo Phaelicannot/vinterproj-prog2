@@ -4,6 +4,7 @@ using Raylib_cs;
 using System.IO.Pipes;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml;
 using VinterprojProg2;
 
 Raylib.InitWindow(1920, 1080, "Flappy Bird");
@@ -25,28 +26,36 @@ while(Raylib.WindowShouldClose() == false)
     bird.DrawCharacter();
     bird.IsDead(); 
 
-    if (obstacles.Count() <= Obstacle.maxObstacles)
-    {   
-        if (obstacles.Count() < 1 || obstacles[obstacles.Count()-1].Space())
-        {
-            obstacles.Add(new Obstacle());
-            if (obstacles[obstacles.Count()-1].Space())
+    if(bird.dead == false)
+    {
+        if (obstacles.Count() <= Obstacle.maxObstacles)
+        {   
+            if (obstacles.Count() < 1 || obstacles[obstacles.Count()-1].Space())
             {
-                pipe.obstacleSpace = 0;
+                obstacles.Add(new Obstacle());
+                if (obstacles[obstacles.Count()-1].Space())
+                {
+                    pipe.obstacleSpace = 0;
+                }
             }
+        
         }
-       
     }
 
+    
     foreach(Obstacle i in obstacles)
     {
         Console.WriteLine(i.obstacleX);
         i.DrawObstacle();
-        i.MoveObstacle();
+        if(bird.dead == false)
+        {
+            i.MoveObstacle();
+        }
     }
 
+
     if (obstacles.Count() > Obstacle.maxObstacles)
-    {
+    {   
         obstacles.RemoveAt(0);
     }
 
@@ -68,16 +77,44 @@ while(Raylib.WindowShouldClose() == false)
         }
     }
 
+    bool Restart()
+    {
+        if(v.restartTrigger == 1)
+        {
+            return (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER));
+        }
+        if(v.restartTrigger == 2)
+        {
+            return true;
+        }
+        return false;
+       
+    }
+
     if(obstacles[0].obstacleX == 100 && !isColliding())
     {
         v.score += 1;
     }
 
-    
     Raylib.DrawText(v.score.ToString(), v.windowWidth -100, 50, 30, Color.BLACK);
     if(isColliding())
     {
         bird.dead = true;
+        v.restartTrigger = 1;
+    }
+
+    if(Restart())
+    {
+        bird.dead = false;
+        bird.charPosY = v.windowHeight/2;
+        obstacles.Clear();
+        pipe.obstacleSpace = 0;
+        v.score = 0;
+        v.restartTrigger = 2;
+        if(Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
+        {
+            v.restartTrigger = 0;
+        }
     }
     
     // Raylib.DrawRectangle((int)obstacles[0].getPipeH().X, (int)obstacles[0].getPipeH().Y, (int)obstacles[0].getPipeH().Width, (int)obstacles[0].getPipeH().Height, Color.WHITE);

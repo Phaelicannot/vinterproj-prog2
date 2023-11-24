@@ -18,6 +18,16 @@ public class Obstacle
     public int heightGenHigh;
     public int heightGenLow;
     
+    public Texture2D ObsTex = Raylib.LoadTexture("brick wall.png");
+    
+    public Rectangle getRectSrc()
+    {
+        return new Rectangle(0, 0, 16, 200);
+    }
+    public Vector2 obsVec()
+    {
+        return new Vector2(0, 0);
+    }
     public Rectangle getPipeL()
     {
         return new Rectangle(obstacleX, heightGenLow, 64, 800);
@@ -33,8 +43,8 @@ public class Obstacle
     }
     public void DrawObstacle()
     {   
-        Raylib.DrawRectangleRec(getPipeH(), Color.GREEN);
-        Raylib.DrawRectangleRec(getPipeL(), Color.GREEN);
+        Raylib.DrawTexturePro(ObsTex, getRectSrc(), getPipeH(), obsVec(), 0, Color.WHITE);
+        Raylib.DrawTexturePro(ObsTex, getRectSrc(), getPipeL(), obsVec(), 0, Color.WHITE);
         Console.WriteLine(obstacleX);
     }
     public void MoveObstacle()

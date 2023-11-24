@@ -16,15 +16,26 @@ public class Player
     public bool dead = false;
     static public int gravity = 2;
     static public int speed = 10;
+    private int birdRot = 0;
+
+    public Texture2D birdTex = Raylib.LoadTexture("bee.png");
     
-    public Rectangle getRect()
+    public Vector2 birdVec()
+    {
+        return new Vector2(0, 0);
+    }
+    public Rectangle getRectSrc()
+    {
+        return new Rectangle(0, 0, 16, 16);
+    }
+    public Rectangle getRectDest()
     {
         return new Rectangle(100, charPosY, 64, 64);
     }
 
     public void DrawCharacter()
     {
-        Raylib.DrawRectangleRec(getRect(), Color.BROWN);
+        Raylib.DrawTexturePro(birdTex, getRectSrc(), getRectDest(), birdVec(), birdRot, Color.WHITE);
     }
     public void Flap()
     {
@@ -33,6 +44,7 @@ public class Player
             if(Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
                 speed = 30;
+                birdRot = -20;
             }
         }
         if(charPosY < Raylib.GetScreenHeight() - 64)
@@ -41,10 +53,12 @@ public class Player
             {
                 speed = speed - gravity;
                 charPosY = charPosY - speed;
+                birdRot = birdRot + gravity/2;
             }
             else if(speed <= -25)
             {
                 charPosY = charPosY - speed;
+                birdRot = birdRot + gravity;
             }
         }
         

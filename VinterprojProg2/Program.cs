@@ -60,9 +60,9 @@ while(Raylib.WindowShouldClose() == false)
 
     bool isColliding()
     {
-        Raylib.CheckCollisionRecs(bird.getRect(), obstacles[0].getPipeH());
-        Raylib.CheckCollisionRecs(bird.getRect(), obstacles[0].getPipeL());
-        if (Raylib.CheckCollisionRecs(bird.getRect(), obstacles[0].getPipeH()) || Raylib.CheckCollisionRecs(bird.getRect(), obstacles[0].getPipeL()))
+        Raylib.CheckCollisionRecs(bird.getRectDest(), obstacles[0].getPipeH());
+        Raylib.CheckCollisionRecs(bird.getRectDest(), obstacles[0].getPipeL());
+        if (Raylib.CheckCollisionRecs(bird.getRectDest(), obstacles[0].getPipeH()) || Raylib.CheckCollisionRecs(bird.getRectDest(), obstacles[0].getPipeL()))
         {
             return true;
         }

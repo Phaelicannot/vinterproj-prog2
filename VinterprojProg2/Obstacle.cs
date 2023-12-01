@@ -13,7 +13,7 @@ public class Obstacle
     public static int maxObstacles = 4;
     public bool nextObstacle;
     public int obstacleSpace;
-    public int speed = 10;
+    public int speed = 15;
     public Random generator = new Random();
     public int heightGenHigh;
     public int heightGenLow;

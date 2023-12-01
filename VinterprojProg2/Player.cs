@@ -13,16 +13,17 @@ public class Player
     Variables v = new Variables();
     Obstacle pipes = new Obstacle();
     public int charPosY;
+    public int charPosX = 300;
     public bool dead = false;
     static public int gravity = 2;
     static public int speed = 10;
-    private int birdRot = 0;
+    public int birdRot = 0;
 
     public Texture2D birdTex = Raylib.LoadTexture("bee.png");
     
     public Vector2 birdVec()
     {
-        return new Vector2(0, 0);
+        return new Vector2(32,32);
     }
     public Rectangle getRectSrc()
     {
@@ -30,7 +31,7 @@ public class Player
     }
     public Rectangle getRectDest()
     {
-        return new Rectangle(100, charPosY, 64, 64);
+        return new Rectangle(charPosX, charPosY, 64, 64);
     }
 
     public void DrawCharacter()
